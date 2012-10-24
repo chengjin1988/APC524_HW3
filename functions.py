@@ -12,7 +12,7 @@ def ApproximateJacobian(f, x, dx=1e-6):
         v = N.matrix(N.zeros((n,1)))
         v[i,0] = dx
         Df_x[:,i] = f(x + v) - fx
-    return Df_x
+    return Df_x/dx
 
 class Polynomial(object):
     """Callable polynomial object.
