@@ -26,7 +26,7 @@ class Newton(object):
             if N.linalg.norm(fx) < self._tol:
                 return x
             x = self.step(x, fx)
-        return x
+        return x, i
 
     def step(self, x, fx=None):
         """Take a single step of a Newton method, starting from x

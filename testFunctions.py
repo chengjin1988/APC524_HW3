@@ -3,6 +3,8 @@
 import functions as F
 import numpy as N
 import unittest
+import random
+from numpy import *
 
 class TestFunctions(unittest.TestCase):
     def testApproxJacobian1(self):
@@ -30,7 +32,38 @@ class TestFunctions(unittest.TestCase):
         p = F.Polynomial([1, 2, 3])
         for x in N.linspace(-2,2,11):
             self.assertEqual(p(x), x**2 + 2*x + 3)
-
+  
+    def testHighDimension1(self):
+        n = 5
+        A = N.matrix(N.zeros((n,n)))
+        for i in range(n):
+            A[i,:] = random.random(n)
+        def f(x):
+            return A * x
+        x0 = N.matrix(N.zeros(n))
+        x0 = random.random((n,1))
+        dx = 1.e-6
+        Df_x = F.ApproximateJacobian(f, x0, dx)
+        self.assertEqual(Df_x.shape, (n,n))
+        N.testing.assert_array_almost_equal(Df_x, A)
+ 
+    def testHighDimension2(self):
+        n = 5
+        A = N.matrix(N.zeros((n,n)))
+        for i in range(n):
+            A[i,:] = random.random(n)
+        def f(x):
+            return N.square( A * x )
+        x0 = N.matrix(N.zeros(n))
+        x0 = random.random((n,1))
+        dx = 1.e-6
+        Df_x = F.ApproximateJacobian(f, x0, dx)
+        self.assertEqual(Df_x.shape, (n,n))
+        exact = N.matrix(N.zeros((n,n)))
+        for i in range(n):
+            for j in range(n):
+                exact[i,j] = 2*A[i,j]*((A*x0)[i])
+        N.testing.assert_array_almost_equal(Df_x, exact)
 if __name__ == '__main__':
     unittest.main()
 
