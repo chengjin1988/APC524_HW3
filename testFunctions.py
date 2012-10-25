@@ -64,6 +64,29 @@ class TestFunctions(unittest.TestCase):
             for j in range(n):
                 exact[i,j] = 2*A[i,j]*((A*x0)[i])
         N.testing.assert_array_almost_equal(Df_x, exact)
+
+    def testAnalyticalJacobian(self):
+        n = 5
+        param = N.matrix(N.zeros(n))
+        param = random.random((n,1))
+        p = F.Polynomial(param)
+        def f(x):
+            return p(x)
+        x0 = random.random()
+        dx = 1.e-6
+        J = F.AnalyticalJacobian(param)
+        J1 = J(x0)
+        J2 = F.ApproximateJacobian(f, x0, dx)
+        N.testing.assert_array_almost_equal(J1[0], J2[0][0])
+        
+    def test2D(self):
+        n = 2
+        f = F.function2D
+        x0 = random.random((n,1))
+        dx = 1e-6
+        J1 = F.function2DJacobian(x0)
+        J2 = F.ApproximateJacobian(f, x0, dx)
+        N.testing.assert_array_almost_equal(J1, J2)
 if __name__ == '__main__':
     unittest.main()
 

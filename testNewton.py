@@ -58,5 +58,22 @@ class TestNewton(unittest.TestCase):
                 print "Max iteration =",maxiter,"reached...."
 
 
+    def testRoot1Analy(self):
+        p = functions.Polynomial([1, 3, 2])
+        def f(x):
+            return p(x)
+        maxiter=20
+        J = functions.AnalyticalJacobian([1, 3, 2])
+        def Jacobian(x):
+            return J(x)
+        solver = newton.Newton(f, tol=1.e-15, maxiter=20, Df=Jacobian)
+        x0 = 0 
+        x = solver.solve(x0)[0]
+        try:
+            N.testing.assert_array_almost_equal(x, -1.0)
+        except AssertionError:
+            if solver.solve(x0)[1] == maxiter-1:
+                print "Max iteration =",maxiter,"reached...."
+
 if __name__ == "__main__":
     unittest.main()
