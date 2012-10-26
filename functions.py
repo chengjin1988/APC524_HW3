@@ -59,7 +59,7 @@ class AnalyticalJacobian(object):
             n = len(self._coeffs)
         except TypeError:
             ans = 0
-        ans = 0
+        ans = N.matrix(N.zeros((1,1)))
         for i in range(n-1):
             ans = x*ans + (n-i-1)*self._coeffs[i]
         return ans

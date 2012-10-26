@@ -43,11 +43,16 @@ APC524_HW3
 
 	// testRoot1:	test accuracy of root finder in a polynomial case, 
 			raise exception when it reaches maximun iteration number
+			(increase maxiter or use other x0 may avoid this)
 
 	// testRoot2:	test accuracy of root finder in A*x-b case.
 
 	// testRootAnaly:
 			test accuracy of root with AnalyticalJacobian in the same
 			case as in testRoot1
+
+	// testRange:
+			test the case when calculated x_k is out of a certain range r from initial 
+			guess x0
 
 APC524_HW3

@@ -66,18 +66,15 @@ class TestFunctions(unittest.TestCase):
         N.testing.assert_array_almost_equal(Df_x, exact)
 
     def testAnalyticalJacobian(self):
-        n = 5
-        param = N.matrix(N.zeros(n))
-        param = random.random((n,1))
-        p = F.Polynomial(param)
+        p = F.Polynomial([1, 2, 3])
         def f(x):
             return p(x)
-        x0 = random.random()
+        x0 = 1
         dx = 1.e-6
-        J = F.AnalyticalJacobian(param)
+        J = F.AnalyticalJacobian([1, 2, 3])
         J1 = J(x0)
         J2 = F.ApproximateJacobian(f, x0, dx)
-        N.testing.assert_array_almost_equal(J1[0], J2[0][0])
+        N.testing.assert_array_almost_equal(J1, J2)
         
     def test2D(self):
         n = 2
